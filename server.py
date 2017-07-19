@@ -84,7 +84,7 @@ def get_year_first_time_asc_page(year, page):
 @app.route('/api/<int:year>/search/<string:search_string>')
 def get_year_search(year, search_string):
     return get_programs({
-        'year':year, 'name_lower': {'$regex' : '.*' + search_string + '.*'}
+        'year':year, 'name_lower': {'$regex' : '.*' + search_string.lower() + '.*'}
     })
 
 @app.route('/bundle.js')
