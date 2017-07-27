@@ -181,7 +181,6 @@ export default class Body extends Component {
         console.log('[Body](setYear) Year: ' + value)
         this.setState({
             year: value,
-            loading: true,
             page: 1
         })
     }
