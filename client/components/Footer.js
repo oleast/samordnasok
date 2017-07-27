@@ -18,20 +18,13 @@ export default class Header extends Component {
     return (
         <Segment basic inverted>
             <Container>
-                <Grid columns={3} relaxed>
+                <Grid columns={1} relaxed textAlign='center'>
                     <Grid.Column>
                         <Segment basic inverted>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Segment basic inverted>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
-                        </Segment>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Segment basic inverted>
-                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio.
+                            <p>
+                                Denne siden ble utviklet i hovedsak for å gjøre det enklere å søke opp og sammenligne karakterstatistikk.
+                                Siden er i kontinuerlig utvikling av Ole Anders Stokker, og koden er tilgjengelig helt åpent på <Icon name='github'><a href='https://github.com/oleast'> Github</a></Icon>
+                            </p>
                         </Segment>
                     </Grid.Column>
                 </Grid>
