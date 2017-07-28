@@ -22,21 +22,21 @@ export default class Result extends Component {
     }
 
     toggleHistory () {
-        console.log('toggleHistory')
+        const { historyButton } = this.state
+        console.log('[ProgramWrapper](toggleHistory) Show History: ' + !historyButton)
         this.setState({
-            historyButton: !this.state.historyButton
+            historyButton: !historyButton
         }, () => {
             if (this.state.historyButton) {
                 const query = '/api/code/' + this.props.program.code
-                console.log(query)
+                console.log('[ProgramWrapper](toggleHistory) Getting: ' + query)
                 axios
                     .get(query)
                     .then((res) => {
                         this.setState({
                             history: res.data
                         }, () => {
-                            console.log('Got history:')
-                            console.log(this.state.history)
+                            console.log('[ProgramWrapper](toggleHistory) Got history for code: ' + this.state.history[0].code)
                         })
                     })
                     .catch((err) => {

@@ -22,31 +22,31 @@ const YEARS = [
 let orders = ['desc', 'asc']
 let types = ['ordinary', 'first_time']
 
-export default class Body extends Component {
+export default class SearchView extends Component {
 
     constructor (props) {
         super(props)
 
-        console.log('[Body](constructor) Props: ' + JSON.stringify(props))
+        console.log('[SearchView](constructor) Props: ' + JSON.stringify(props))
 
         const o = 0
         const t = 0
-        if (props.location.o === 0 || props.location.o === 1) {
-            const o = props.location.o
+        if (props.query.o === 0 || props.query.o === 1) {
+            const o = props.query.o
         }
-        if (props.location.t === 0 || props.location.t === 1) {
-            const t = props.location.t
+        if (props.query.t === 0 || props.query.t === 1) {
+            const t = props.query.t
         }
 
         this.state = {
-            year: props.location.y || '2017',
+            year: props.query.y || '2017',
             loading: true,
-            filter: props.location.q || '',
+            filter: props.query.q || '',
             list: [],
             original_list: [],
             order: orders[o] || orders[0],
             valueType: types[t] || types[0],
-            page: props.location.p || 1,
+            page: props.query.p || 1,
             loadable: true,
         }
 
@@ -62,24 +62,24 @@ export default class Body extends Component {
     }
 
     componentWillMount () {
-        console.log('[Body](componentWillMount)')
+        console.log('[SearchView](componentWillMount)')
         this.apiSearch()
     }
 
     componentWillReceiveProps () {
-        console.log('[Body](componentWillReceiveProps)')
+        console.log('[SearchView](componentWillReceiveProps)')
         this.apiSearch()
     }
 
     formChange (e, { value }) {
-        //console.log('[Body](formChange) Filter: ' + value)
+        //console.log('[SearchView](formChange) Filter: ' + value)
         this.setState({
             filter: value
         })
     }
 
     toggleOrder () {
-        console.log('[Body](toggleOrder) List Reverse')
+        console.log('[SearchView](toggleOrder) List Reverse')
         orders.reverse()
         this.setState({
             order: orders[0],
@@ -89,13 +89,13 @@ export default class Body extends Component {
 
     filterList () {
         const { original_list, filter } = this.state
-        console.log('[Body](filterList) Filter list, filter: ' + filter)
+        console.log('[SearchView](filterList) Filter list, filter: ' + filter)
         if (filter.length) {
             this.setState({
                 list: original_list.filter((item) => item.name.toLowerCase().indexOf(filter) > -1)
             })
         } else {
-            console.log('[Body](filterList) No filter applied, returning to normal')
+            console.log('[SearchView](filterList) No filter applied, returning to normal')
             this.setState({
                 list: original_list
             })
@@ -107,11 +107,11 @@ export default class Body extends Component {
 
         if (filter != '') {
             const query = '/api/' + year + '/search/' + filter 
-            console.log('[Body](apiSearch) Getting: ' + query)
+            console.log('[SearchView](apiSearch) Getting: ' + query)
             axios
                 .get(query)
                 .then((res) => {
-                    console.log('[Body](apiSearch) Got from year: ' + year + ', with length: ' + res.data.length)
+                    console.log('[SearchView](apiSearch) Got from year: ' + year + ', with length: ' + res.data.length)
                     this.setState({
                         list: res.data,
                         original_list: res.data,
@@ -124,7 +124,7 @@ export default class Body extends Component {
                     console.error(err)
                 })
         } else {
-            console.log('[Body](apiSearch) No filter, returning to original state')
+            console.log('[SearchView](apiSearch) No filter, returning to original state')
             this.setState({
                 page: 1
             }, () => {
@@ -136,11 +136,11 @@ export default class Body extends Component {
     getYear () {
         const { year, valueType, order, page } = this.state
         const query = '/api/' + year + '/' + valueType + '/' + order + '/' + page
-        console.log('[Body](getYear) Getting: ' + query)
+        console.log('[SearchView](getYear) Getting: ' + query)
         axios
             .get(query)
             .then((res) => {
-                console.log('[Body](getYear) Got from year: ' + year + ', with length: ' + res.data.length)
+                console.log('[SearchView](getYear) Got from year: ' + year + ', with length: ' + res.data.length)
                 this.setState({
                     list: res.data,
                     original_list: res.data,
@@ -161,11 +161,11 @@ export default class Body extends Component {
             page: page + 1
         }, () => {
             const query = '/api/' + year + '/' + valueType + '/' + order + '/' + page
-            console.log('[Body](loadMore) Getting: ' + query)
+            console.log('[SearchView](loadMore) Getting: ' + query)
             axios
                 .get(query)
                 .then((res) => {
-                    console.log('[Body](loadMore) Got from year: ' + year + ', with length: ' + res.data.length)
+                    console.log('[SearchView](loadMore) Got from year: ' + year + ', with length: ' + res.data.length)
                     this.setState({
                         list: this.state.list.concat(res.data),
                         original_list: this.state.original_list.concat(res.data)
@@ -178,7 +178,7 @@ export default class Body extends Component {
     }
 
     setYear (event, { value }) {
-        console.log('[Body](setYear) Year: ' + value)
+        console.log('[SearchView](setYear) Year: ' + value)
         this.setState({
             year: value,
             page: 1
@@ -187,10 +187,10 @@ export default class Body extends Component {
 
     firstToggle (e, {value}) {
         if (this.state.valueType == types[1]) {
-            console.log('[Body](firstToggle) toggle first_time')
+            console.log('[SearchView](firstToggle) toggle first_time')
             this.toggleOrder()
         } else {
-            console.log('[Body](firstToggle) set first_time')
+            console.log('[SearchView](firstToggle) set first_time')
             this.setState({
                 valueType: types[1]
             }, () => {
@@ -201,10 +201,10 @@ export default class Body extends Component {
 
     ordinaryToggle (e, {value}) {
         if (this.state.valueType == types[0]) {
-            console.log('[Body](ordinaryToggle) toggle ordinary')
+            console.log('[SearchView](ordinaryToggle) toggle ordinary')
             this.toggleOrder()
         } else {
-            console.log('[Body](ordinaryToggle) set ordinary')
+            console.log('[SearchView](ordinaryToggle) set ordinary')
             this.setState({
                 valueType: types[0]
             }, () => {
@@ -241,7 +241,7 @@ export default class Body extends Component {
                 { list ? 
                     list.map((program) => { return <ProgramWrapper key={program.code + program.year} program={program} />}) : undefined
                 }
-                { loading ? <Loader active/> : undefined }
+                { !list.length || loading ? <Loader active/> : undefined }
                 { loadable ?
                     <Container textAlign='center'>
                         <Divider hidden />

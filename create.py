@@ -10,6 +10,21 @@ client = MongoClient()
 db = client['samordnasok']
 programs = db['programs']
 
+grades_2010 = join(dirname(dirname(abspath(__file__))), 'samordnasok/server', '2010.xls')
+xl_workbook_2010 = xlrd.open_workbook(grades_2010)
+sheet_names_2010 = xl_workbook_2010.sheet_names()
+print('Sheet Names', sheet_names_2010)
+xl_sheet_2010 = xl_workbook_2010.sheet_by_index(0)
+print ('Sheet name: %s' % xl_sheet_2010.name)
+
+grades_2009 = join(dirname(dirname(abspath(__file__))), 'samordnasok/server', '2009.xls')
+xl_workbook_2009 = xlrd.open_workbook(grades_2009)
+sheet_names_2009 = xl_workbook_2009.sheet_names()
+print('Sheet Names', sheet_names_2009)
+xl_sheet_2009 = xl_workbook_2009.sheet_by_index(0)
+print ('Sheet name: %s' % xl_sheet_2009.name)
+
+'''
 grades_2011 = join(dirname(dirname(abspath(__file__))), 'samordnasok/server', '2011.xlsx')
 xl_workbook_2011 = xlrd.open_workbook(grades_2011)
 sheet_names_2011 = xl_workbook_2011.sheet_names()
@@ -58,6 +73,7 @@ sheet_names_2017 = xl_workbook_2017.sheet_names()
 print('Sheet Names', sheet_names_2017)
 xl_sheet_2017 = xl_workbook_2017.sheet_by_index(0)
 print ('Sheet name: %s' % xl_sheet_2017.name)
+'''
 
 def get_year(xl_sheet, year):
     #l = []
@@ -102,7 +118,7 @@ def get_year(xl_sheet, year):
 
         #l.append(data)
 
-
+'''
 get_year(xl_sheet_2011, 2011)
 get_year(xl_sheet_2012, 2012)
 get_year(xl_sheet_2013, 2013)
@@ -110,3 +126,55 @@ get_year(xl_sheet_2014, 2014)
 get_year(xl_sheet_2015, 2015)
 get_year(xl_sheet_2016, 2016)
 get_year(xl_sheet_2017, 2017)
+'''
+
+def get_year_old(xl_sheet, year):
+    #l = []
+    for i in range(1, xl_sheet.nrows):
+        #print(xl_sheet.row(i)[0].value)
+        if (xl_sheet.row(i)[0].value == '---------------------------'):
+            institution = xl_sheet.row(i-2)[0].value + ' ' + xl_sheet.row(i-1)[0].value
+            print(institution)
+        
+        '''
+        row = xl_sheet.row(i)
+
+        try:
+            o_wait = int(row[4].value)
+        except ValueError:
+            o_wait = 0
+
+        try:
+            f_wait = int(row[6].value)
+        except ValueError:
+            f_wait = 0
+        
+        try:
+            ordinary_s = float(row[3].value)
+        except ValueError:
+            ordinary_s = 0.0
+
+        try:
+            first_sortable = float(row[5].value)
+        except ValueError:
+            first_sortable = 0.0
+
+        data = {
+            "year": year,
+            "institution": row[0].value,
+            "code": int(row[1].value),
+            "name": row[2].value,
+            "name_lower": row[2].value.lower(),
+            "ordinary": row[3].value,
+            "ordinary_sortable": ordinary_s,
+            "ordinary_wait": o_wait,
+            "first_time": row[5].value,
+            "first_time_sortable": first_sortable,
+            "first_time_wait": f_wait,
+        }
+
+        programs.insert_one(data)
+        '''
+
+get_year_old(xl_sheet_2009, 2009)
+get_year_old(xl_sheet_2010, 2010)
