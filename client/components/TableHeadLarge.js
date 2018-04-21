@@ -50,7 +50,7 @@ export default class TableHeadLarge extends Component {
                         Venteliste
                     </Header>
                 </Grid.Column>
-                <Grid.Column width={1}>
+                <Grid.Column width={1} floated='left'>
                      <Header as='h3'>
                         Historie
                     </Header>

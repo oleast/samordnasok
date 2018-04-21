@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Menu, Icon, Container } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 export default class Header extends Component {
 
@@ -17,7 +18,7 @@ export default class Header extends Component {
         return (
             <Menu inverted stackable>
                 <Container>
-                    <Menu.Item active={true} color='green'>
+                    <Menu.Item as={Link} to='/' active={true} color='green'>
                         <Icon disabled name='search' /> {this.props.pageName}
                     </Menu.Item>
                     {/*<Menu.Item

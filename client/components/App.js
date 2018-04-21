@@ -3,7 +3,18 @@ import { Container, Divider } from 'semantic-ui-react'
 
 import Header from './Header'
 import Footer from './Footer'
-import Body from './Body'
+import Router from './Router'
+
+const style = {
+	content: {
+		flex: '1'
+	},
+	site: {
+		display: 'flex',
+        minHeight: '100vh',
+        flexDirection: 'column',
+    }
+}
 
 export default class App extends Component {
 
@@ -17,13 +28,15 @@ export default class App extends Component {
 
     render() {
         return (
-            <div>
-                <Header pageName='Samordna Søk'/>
-                <Container>
-                    <Body />
-                </Container>
-                {/*<Footer />*/}
-                <Divider hidden />
+            <div id='main' style={style.site}>
+                <div style={style.content}>
+                    <Header pageName='Samordna Søk'/>
+                    <Container>
+                        <Router />
+                    </Container>
+                    <Divider hidden />
+                </div>
+                <Footer />
             </div>
         )
     }
